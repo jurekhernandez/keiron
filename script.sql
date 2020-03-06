@@ -36,7 +36,7 @@ CREATE TABLE tb_ticket(
 ) ENGINE=InnoDB CHARSET=utf8 COLLATE=UTF8_SPANISH_CI;
 
 INSERT INTO tp_tipo_usuario VALUES(DEFAULT,'Administrador'),(DEFAULT,'Usuario');
-
+update tb_ticket set ticket_pedido=0 where id < 99;
 
 
 CREATE TABLE `migrations` (

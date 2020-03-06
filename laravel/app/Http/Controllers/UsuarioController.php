@@ -84,4 +84,9 @@ class UsuarioController extends Controller
         $nuevo->save();
         return $this->successResponse($nuevo, Response::HTTP_CREATED);
     }
+    public function index(Request $req){
+        $usu = TbUsuario::where('id_tipo_usuario','=','2')->getQuery()->get();
+        return $this->successResponse($usu);
+    }
+
 }

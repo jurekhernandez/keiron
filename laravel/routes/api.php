@@ -25,10 +25,15 @@ Route::post('usuario',"UsuarioController@store");
 });*/
 
 Route::group(['middleware'=>'auth:api'], function(){
+    Route::get('usuarios',"UsuarioController@index");
     Route::get('ticket',"TicketController@index");
     // Route::get('ticket/{id}',"TicketController@show");
     Route::post('ticket',"TicketController@store");
     Route::put('ticket/{id}',"TicketController@update");
     Route::patch('ticket/{id}',"TicketController@update");
+
+    Route::put('asignarTicket/{id}',"TicketController@asignarTicket");
+    Route::patch('asignarTicket/{id}',"TicketController@asignarTicket");
+
     Route::delete('ticket',"TicketController@destroy");
 });

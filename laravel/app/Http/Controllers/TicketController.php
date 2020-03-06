@@ -58,14 +58,16 @@ class TicketController extends Controller
         if($contenido == ""){
             return $this->errorResponse("falto agregar el contenido", Response::HTTP_NO_CONTENT);
         }
-        if($id_user != null){
+        if($id_user != null && $id_user != 0 && $id_user != '0'){
             $usuario = TbUsuario::find($id_user);
             if(!$usuario){
                 return $this->errorResponse("No se encontro el usuario", Response::HTTP_NOT_FOUND);
             }
+        }else{
+            $id_user =null;
         }
         $ticket = new TbTicket;
-        $ticket->id_user=  $id_user ?? null;
+        $ticket->id_user=  $id_user ;
         $ticket->contenido=$contenido;
         $ticket->save();
         return $this->successResponse($ticket, Response::HTTP_CREATED);
@@ -90,6 +92,23 @@ class TicketController extends Controller
         }else{
             return $this->errorResponse("No se encontro el ticket seleccionado",Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+    }
+
+    public function asignarTicket($id, Request $req){
+        $id_usuario= $req->id_usuario;
+        $ticket = TbTicket::find($id);
+        $usuario = TbUsuario::find($id_usuario);
+
+        if($ticket && $usuario){
+            $ticket->id_user= $usuario->id;
+            $ticket->save();
+            return $this->successResponse("Se asigno correctamente",Response::HTTP_ACCEPTED);
+        }if($ticket && $id_usuario ==0){
+            $ticket->id_user= null;
+            $ticket->save();
+            return $this->successResponse("Se asigno correctamente",Response::HTTP_ACCEPTED);
+        }
+
     }
 
     public function destroy(Request $req){
